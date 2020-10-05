@@ -8,6 +8,7 @@ class User:
 
 	#check if the user exists
 	def check(name):
+
 		file = open('user.txt','r')
 		obj = file.read().split()
 		if name in obj:
@@ -16,6 +17,7 @@ class User:
 
 	#create a new user
 	def new(name):
+
 		file = open('user.txt', 'a')
 		obj = name + '\n'
 		file.write(obj)
@@ -23,6 +25,7 @@ class User:
 
 	#delete a user
 	def delete(name):
+
 		file = open('user.txt', 'r')
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
@@ -36,6 +39,7 @@ class User:
 
 	#update a user's name
 	def update(old_name, new_name):
+		
 		file = open('user.txt', 'r')
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
@@ -49,3 +53,8 @@ class User:
 		file.close()
 		os.remove('user.txt')
 		os.rename('new.txt','user.txt')
+
+'''
+made by Devansh Singh, 2020
+GitHub: Devansh3712
+'''

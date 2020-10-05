@@ -1,6 +1,7 @@
 #modules for NoterPy
 import noter_user as nu
 import user_task as ut
+import user_notes as un
 
 #extra libraries
 import time
@@ -59,21 +60,27 @@ while True:
 			print('Thankyou for using NoterPy :)\n')
 			break
 
+		#if any other option is given as input
 		else:
 			print('Choose a valid option\n')
 
+#if flag is false, program terminates
 if flag == True:
 
 	while True:
 
+		#contents of program
 		print('1. My to-do list')
 		print('2. My important dates')
-		print('3. Exit')
+		print('3. My notes')
+		print('4. Exit')
 		print()
 
+		#input of user's choice
 		user_prompt = input('Enter your choice: ')
 		print()
 
+		#to-do list
 		if user_prompt == '1':
 
 			while True:
@@ -88,28 +95,93 @@ if flag == True:
 				user_prompt_list = input('Enter your choice: ')
 				print()
 
+				#show the tasks in the list
 				if user_prompt_list == '1':
 					ut.Task.show(name)
 
+				#add a task in the list
 				elif user_prompt_list == '2':
 					task = input('Enter the task: ')
 					ut.Task.add(name, task)
 
+				#remove a task from the list
 				elif user_prompt_list == '3':
 					number = input('Enter task number: ')
 					ut.Task.remove(name, number)
 
+				#update a task in the list
 				elif user_prompt_list == '4':
 					number = input('Enter task number: ')
 					task = input('Enter the new task: ')
 					ut.Task.update(name, number, task)
 
+				#exit the to-do list loop, return to main menu
 				elif user_prompt_list == '5':
 					break
 
+				#if any other option is chosen
 				else:
 					print('Choose a valid option')
 
+				print()
+
+		#notes
 		elif user_prompt == '3':
+
+			while True:
+
+				print('1. Show list of notes')
+				print('2. Show a note')
+				print('3. Add a note')
+				print('4. Remove a note')
+				print('5. Update a note')
+				print('6. Return to main menu')
+				print()
+
+				user_prompt_list = input('Enter your choice: ')
+				print()
+
+				#show all notes of a user
+				if user_prompt_list == '1':
+					un.Notes.showList(name)
+
+				#show contents of a selected note
+				elif user_prompt_list == '2':
+					name_of_note = input('Enter name of note: ')
+					un.Notes.show(name, name_of_note)
+
+				#add a note for the user
+				elif user_prompt_list == '3':
+					name_of_note = input('Enter name of note: ')
+					content = input('Enter content: ')
+					un.Notes.add(name, name_of_note, content)
+
+				#delete a note of a user
+				elif user_prompt_list == '4':
+					name_of_note = input('Enter name of note: ')
+					un.Notes.remove(name, name_of_note)
+
+				#update a note of a user					
+				elif user_prompt_list == '5':
+					name_of_note = input('Enter name of note: ')
+					content = input('Enter content to be updated: ')
+					un.Notes.update(name, name_of_note, content)
+
+				#exit the note loop, return to main menu
+				elif user_prompt_list == '6':
+					break
+
+				#if any other option is chosen
+				else:
+					print('Choose a valid option\n')
+
+				print()
+
+		#exit the program
+		elif user_prompt == '4':
 			print('Thankyou for using NoterPy :)\n')
 			break
+
+		#if any other option is chosen
+		else:
+			print('Choose a valid option\n')

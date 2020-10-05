@@ -86,3 +86,8 @@ class Task:
 			os.remove('./to-do-list/{}.txt'.format(name))
 			os.rename('./to-do-list/new.txt', './to-do-list/{}.txt'.format(name))
 			print('Task was successfully updated\n')
+
+'''
+made by Devansh Singh, 2020
+GitHub: Devansh3712
+'''
