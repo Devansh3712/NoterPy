@@ -4,7 +4,11 @@ of a user,  user file saved in
 to-do-list folder
 '''
 
-import os
+try:
+	import os
+	import pyttsx3
+except:
+	print('Required modules not installed, please install them\n')
 
 class Task:
 
@@ -86,6 +90,26 @@ class Task:
 			os.remove('./to-do-list/{}.txt'.format(name))
 			os.rename('./to-do-list/new.txt', './to-do-list/{}.txt'.format(name))
 			print('Task was successfully updated\n')
+
+class Speak:	
+
+	#convert text to speech each task in to-do list
+	def taskToSpeech(name):
+
+		#setup python text-to-speech
+		engine = pyttsx3.init()
+		engine.setProperty('rate', 150)
+
+		if Task.check(name) == False: #if task list is empty
+			engine.say('No tasks in the to-do list!')
+			engine.runAndWait()
+
+		else:
+			file = open('./to-do-list/{}.txt'.format(name), 'r')
+			obj = file.read().splitlines()
+			for i in obj:
+				engine.say(i)
+				engine.runAndWait()
 
 '''
 made by Devansh Singh, 2020

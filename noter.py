@@ -1,11 +1,24 @@
-#modules for NoterPy
-import noter_user as nu
-import user_task as ut
-import user_notes as un
+'''
+before running the program, type the
+following command in terminal/CMD:
 
-#extra libraries
-import time
-import datetime
+terminal > python3 -m pip install -r requirements.txt
+
+CMD > python -m pip install -r requirements.txt
+'''
+
+try:
+	#modules for NoterPy
+	import noter_user as nu
+	import user_task as ut
+	import user_notes as un
+
+	#extra libraries
+	import time
+	import datetime
+
+except:
+	print('Required modules not installed, terminating\n')
 
 #ascii art for program
 ASCII = '''
@@ -89,7 +102,8 @@ if flag == True:
 				print('2. Add a task')
 				print('3. Remove a task')
 				print('4. Update a task')
-				print('5. Return to main menu')
+				print('5. Speak the to-do list')
+				print('6. Return to main menu')
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -115,8 +129,12 @@ if flag == True:
 					task = input('Enter the new task: ')
 					ut.Task.update(name, number, task)
 
-				#exit the to-do list loop, return to main menu
+				#text-to-speech output for to-do list
 				elif user_prompt_list == '5':
+					ut.Speak.taskToSpeech(name)
+
+				#exit the to-do list loop, return to main menu
+				elif user_prompt_list == '6':
 					break
 
 				#if any other option is chosen
@@ -185,3 +203,8 @@ if flag == True:
 		#if any other option is chosen
 		else:
 			print('Choose a valid option\n')
+
+'''
+made by Devansh Singh, 2020
+GitHub: Devansh3712
+'''
