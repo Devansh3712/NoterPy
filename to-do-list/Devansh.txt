@@ -1,3 +1,0 @@
-Make modules for NoterPy
-Add NoterPy to github
-Make needed changes
