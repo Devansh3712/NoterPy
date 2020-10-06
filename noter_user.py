@@ -2,7 +2,12 @@
 module for maintaining user's name
 '''
 
-import os
+try:
+	import os
+	import user_db as udb 
+except:
+	print('Required modules not installed\n')
+	exit()
 
 class User:
 
@@ -22,6 +27,7 @@ class User:
 		obj = name + '\n'
 		file.write(obj)
 		file.close()
+		udb.User.insert(name)
 
 	#delete a user
 	def delete(name):
@@ -29,13 +35,19 @@ class User:
 		file = open('user.txt', 'r')
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
-		for i in obj:
-			if i != name:
-				new_file.write(i)
-		new_file.close()
-		file.close()
-		os.remove('user.txt')
-		os.rename('new.txt','user.txt')
+
+		if check(name) == False:
+			print('User not found\n')
+
+		else:
+			for i in obj:
+				if i != name:
+					new_file.write(i)
+			new_file.close()
+			file.close()
+			os.remove('user.txt')
+			os.rename('new.txt','user.txt')
+			udb.User.remove(name)
 
 	#update a user's name
 	def update(old_name, new_name):
@@ -43,16 +55,22 @@ class User:
 		file = open('user.txt', 'r')
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
-		for i in obj:
-			if i == old_name:
-				i = new_name
-				new_file.write(i)
-			else:
-				new_file.write(i)
-		new_file.close()
-		file.close()
-		os.remove('user.txt')
-		os.rename('new.txt','user.txt')
+
+		if check(old_name) == False:
+			print('User not found\n')
+
+		else:
+			for i in obj:
+				if i == old_name:
+					i = new_name
+					new_file.write(i)
+				else:
+					new_file.write(i)
+			new_file.close()
+			file.close()
+			os.remove('user.txt')
+			os.rename('new.txt','user.txt')
+			udb.User.update(old_name, new_name)
 
 '''
 made by Devansh Singh, 2020

@@ -19,6 +19,7 @@ try:
 
 except:
 	print('Required modules not installed, terminating\n')
+	exit()
 
 #ascii art for program
 ASCII = '''

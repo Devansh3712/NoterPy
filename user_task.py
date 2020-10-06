@@ -7,8 +7,10 @@ to-do-list folder
 try:
 	import os
 	import pyttsx3
+	import user_db as udb
 except:
-	print('Required modules not installed, please install them\n')
+	print('Required modules not installed\n')
+	exit()
 
 class Task:
 
@@ -17,16 +19,13 @@ class Task:
 
 		try:
 			file = open('./to-do-list/{}.txt'.format(name), 'r')
+			obj = file.read()
+			if len(obj)>0:
+				return True
+			return False
 
 		except FileNotFoundError: #if user has no task list, create one
 			file = open('./to-do-list/{}.txt'.format(name), 'a')
-
-		obj = file.read()
-
-		if len(obj)>0:
-			return True
-
-		return False
 
 	#show the list of tasks
 	def show(name):
@@ -46,22 +45,26 @@ class Task:
 		file = open('./to-do-list/{}.txt'.format(name), 'a')
 		file.write(task+'\n')
 		file.close()
+		name = name.lower()
+		udb.Task.add(name, task)
 		print('Task was successfully added\n')
 
 	#remove a task from the list of tasks
 	def remove(name, number):
 
-		file = open('./to-do-list/{}.txt'.format(name), 'a')
+		file = open('./to-do-list/{}.txt'.format(name), 'r')
 		new_file = open('./to-do-list/new.txt', 'a')
 		obj = file.read().splitlines()
 
-		if number > len(obj): #if the given number of task is not valid
+		if int(number) > len(obj): #if the given number of task is not valid
 			print('Task not found\n')
 
 		else:
 			for i in range (len(obj)):
-				if i != number - 1:
+				if i != int(number) - 1:
 					new_file.write(obj[i]+'\n')
+				elif i == int(number) - 1:
+					udb.Task.remove(name.lower(), obj[i]) #remove from MySQL 
 			file.close()
 			new_file.close()
 			os.remove('./to-do-list/{}.txt'.format(name))
@@ -71,16 +74,17 @@ class Task:
 	#update a task in the list of tasks
 	def update(name, number, new_task):
 
-		file = open('./to-do-list/{}.txt'.format(name), 'a')
+		file = open('./to-do-list/{}.txt'.format(name), 'r')
 		new_file = open('./to-do-list/new.txt', 'a')
 		obj = file.read().splitlines()
 
-		if number > len(obj): #if the given number of task is not valid
+		if int(number) > len(obj): #if the given number of task is not valid
 			print('Task not found\n')
 
 		else:
 			for i in range (len(obj)):
-				if i == number - 1:
+				if i == int(number) - 1:
+					udb.Task.update(name.lower(), obj[i], new_task) #update in MySQL
 					obj[i] = new_task
 					new_file.write(obj[i]+'\n')
 				else:
