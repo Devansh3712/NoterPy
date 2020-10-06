@@ -87,7 +87,8 @@ if flag == True:
 		print('1. My to-do list')
 		print('2. My important dates')
 		print('3. My notes')
-		print('4. Exit')
+		print('4. Settings')
+		print('5. Exit')
 		print()
 
 		#input of user's choice
@@ -196,8 +197,49 @@ if flag == True:
 
 				print()
 
-		#exit the program
+		#user settings
 		elif user_prompt == '4':
+
+			while True:
+
+				print('1. Update user name')
+				print('2. Remove user')
+				print('3. Return to main menu')
+
+				user_prompt_list = input('Enter your choice: ')
+				print()
+
+				#update name of user
+				if user_prompt_list == '1':
+					new_name = input('Enter the new name of user: ')
+					nu.User.update(name, new_name)
+
+				#delete all data of user
+				elif user_prompt_list == '2':
+					con = input('All user data will be deleted. Do you want to continue? Y/N: ')
+
+					if con.lower() == 'y':
+						nu.User.delete(name)
+
+					elif con.lower() == 'n':
+						print('Returning to main menu')
+						break
+
+					else:
+						print('Choose a valid option\n')
+
+				#exit the settings loop, return to main menu
+				elif user_prompt_list == '3':
+					break
+
+				#if any other option is chosen
+				else:
+					print('Choose a valid option\n')
+
+				print()
+
+		#exit the program
+		elif user_prompt == '5':
 			print('Thankyou for using NoterPy :)\n')
 			break
 

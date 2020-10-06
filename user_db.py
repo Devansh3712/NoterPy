@@ -44,7 +44,7 @@ class User:
 	#removing a user from the user table
 	def remove(name):
 
-		if check(name) == False:
+		if User.check(name) == False:
 			return False
 
 		else:
@@ -57,7 +57,7 @@ class User:
 	#updating the name of a user
 	def update(old_name, new_name):
 
-		if check(name) == False:
+		if User.check(old_name) == False:
 			return False
 
 		else:

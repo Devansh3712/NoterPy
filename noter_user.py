@@ -27,7 +27,13 @@ class User:
 		obj = name + '\n'
 		file.write(obj)
 		file.close()
-		udb.User.insert(name)
+		udb.User.insert(name) #insert name of user into database
+		try:
+			os.system(f'cmd /c "cd notes & mkdir {name}"') #create notes folder for user
+			file = open('./to-do-list/{}.txt'.format(name), 'a') #create to-do list for user
+			file.close()
+		except:
+			pass
 
 	#delete a user
 	def delete(name):
@@ -36,7 +42,7 @@ class User:
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
 
-		if check(name) == False:
+		if User.check(name) == False:
 			print('User not found\n')
 
 		else:
@@ -47,7 +53,14 @@ class User:
 			file.close()
 			os.remove('user.txt')
 			os.rename('new.txt','user.txt')
-			udb.User.remove(name)
+
+			try:
+				os.remove(f'./notes/{name}') #remove notes of user
+				os.remove(f'./to-do-list/{name}.txt') #remove to-do list of user
+			except:
+				pass
+			udb.User.remove(name) #remove user from database
+			print('User removed successfully\n')
 
 	#update a user's name
 	def update(old_name, new_name):
@@ -56,7 +69,7 @@ class User:
 		new_file = open('new.txt', 'a')
 		obj = file.read().split()
 
-		if check(old_name) == False:
+		if User.check(old_name) == False:
 			print('User not found\n')
 
 		else:
@@ -70,7 +83,13 @@ class User:
 			file.close()
 			os.remove('user.txt')
 			os.rename('new.txt','user.txt')
-			udb.User.update(old_name, new_name)
+			try:
+				os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
+				os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_file}.txt') #update the name of to-do list 
+			except:
+				pass
+			udb.User.update(old_name, new_name) #update name in database
+			print('User name changed successfully\n')
 
 '''
 made by Devansh Singh, 2020
