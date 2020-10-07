@@ -6,6 +6,7 @@ a user, saved in directory notes
 try:
 	import os
 	import pyttsx3
+	import speech_recognition as sr
 except:
 	print('Required modules not installed\n')
 	exit()
@@ -111,6 +112,25 @@ class Speak:
 			obj = file.read()
 			engine.say(obj)
 			engine.runAndWait()
+
+class Speech:
+
+	#add note by speaking
+	def speechToNote():
+
+		#setup python speech-to-text
+		r = sr.Recognizer()
+
+		try:
+			with sr.Microphone() as source:
+				audio = r.record(source, duration=30)
+				converted = r.recognize_google(audio)
+				converted = converted.lower()
+				return converted
+
+		except:
+			return False
+			pass
 
 '''
 made by Devansh Singh, 2020

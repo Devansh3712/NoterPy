@@ -7,6 +7,7 @@ to-do-list folder
 try:
 	import os
 	import pyttsx3
+	import speech_recognition as sr
 	import user_db as udb
 except:
 	print('Required modules not installed\n')
@@ -114,6 +115,24 @@ class Speak:
 			for i in obj:
 				engine.say(i)
 				engine.runAndWait()
+
+class Speech:
+
+	#add task by speaking
+	def speechToTask():
+
+		r = sr.Recognizer()
+
+		try:
+			with sr.Microphone() as source:
+				audio = r.record(source, duration=10)
+				converted = r.recognize_google(audio)
+				converted = converted.lower()
+				return converted
+
+		except:
+			return False
+			pass
 
 '''
 made by Devansh Singh, 2020

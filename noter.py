@@ -102,10 +102,11 @@ if flag == True:
 
 				print('1. Show to-do list')
 				print('2. Add a task')
-				print('3. Remove a task')
-				print('4. Update a task')
-				print('5. Speak the to-do list')
-				print('6. Return to main menu')
+				print('3. Add a task by speaking')
+				print('4. Remove a task')
+				print('5. Update a task')
+				print('6. Speak the to-do list')
+				print('7. Return to main menu')
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -120,23 +121,42 @@ if flag == True:
 					task = input('Enter the task: ')
 					ut.Task.add(name, task)
 
-				#remove a task from the list
+				#add task to list by speaking
 				elif user_prompt_list == '3':
+					print('The next 10 seconds audio will be taken in as input\n')
+					task = ut.Speech.speechToTask()
+
+					if task != False:
+						print('Did you say: '+task+' ?'+'\n')
+						user_input = input('Y/N: ')
+
+						if user_input.lower() == 'y':
+							ut.Task.add(name, task)
+
+						else:
+							print('Returning back to main menu\n')
+							break
+
+					else:
+						print('No audio found\n')
+
+				#remove a task from the list
+				elif user_prompt_list == '4':
 					number = input('Enter task number: ')
 					ut.Task.remove(name, number)
 
 				#update a task in the list
-				elif user_prompt_list == '4':
+				elif user_prompt_list == '5':
 					number = input('Enter task number: ')
 					task = input('Enter the new task: ')
 					ut.Task.update(name, number, task)
 
 				#text-to-speech output for to-do list
-				elif user_prompt_list == '5':
+				elif user_prompt_list == '6':
 					ut.Speak.taskToSpeech(name)
 
 				#exit the to-do list loop, return to main menu
-				elif user_prompt_list == '6':
+				elif user_prompt_list == '7':
 					break
 
 				#if any other option is chosen
@@ -153,10 +173,11 @@ if flag == True:
 				print('1. Show list of notes')
 				print('2. Show a note')
 				print('3. Add a note')
-				print('4. Remove a note')
-				print('5. Update a note')
-				print('6. Speak a note')
-				print('7. Return to main menu')
+				print('4. Add a note by speaking')
+				print('5. Remove a note')
+				print('6. Update a note')
+				print('7. Speak a note')
+				print('8. Return to main menu')
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -177,23 +198,43 @@ if flag == True:
 					content = input('Enter content: ')
 					un.Notes.add(name, name_of_note, content)
 
-				#delete a note of a user
+				#add a note for user by speaking
 				elif user_prompt_list == '4':
+					name_of_note = input('Enter name of note: ')
+					print('The next 30 seconds will be taken in as input\n')
+					content = un.Speech.speechToNote()
+
+					if content != False:
+						print('Did you say: '+content+' ?'+'\n')
+						user_input = input('Y/N: ')
+
+						if user_input.lower() == 'y':
+							un.Notes.add(name, name_of_note, content)
+
+						else:
+							print('Returning back to main menu\n')
+							break
+
+					else:
+						print('No audio found\n')
+
+				#delete a note of a user
+				elif user_prompt_list == '5':
 					name_of_note = input('Enter name of note: ')
 					un.Notes.remove(name, name_of_note)
 
 				#update a note of a user					
-				elif user_prompt_list == '5':
+				elif user_prompt_list == '6':
 					name_of_note = input('Enter name of note: ')
 					content = input('Enter content to be updated: ')
 					un.Notes.update(name, name_of_note, content)
 
-				elif user_prompt_list == '6':
+				elif user_prompt_list == '7':
 					name_of_note = input('Enter name of note: ')
 					un.Speak.noteToSpeech(name, name_of_note)
 
 				#exit the note loop, return to main menu
-				elif user_prompt_list == '7':
+				elif user_prompt_list == '8':
 					break
 
 				#if any other option is chosen
