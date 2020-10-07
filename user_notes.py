@@ -3,7 +3,12 @@ module for maintaining notes of
 a user, saved in directory notes
 '''
 
-import os
+try:
+	import os
+	import pyttsx3
+except:
+	print('Required modules not installed\n')
+	exit()
 
 class Notes:
 
@@ -33,9 +38,8 @@ class Notes:
 	def show(name, name_of_note):
 
 		#if there is no folder, create one
-		if Notes.checkFolder(name) == False:
-			os.system(f'cmd /c "cd notes & mkdir {name}"')
-			print('You have no notes!\n')
+		if os.path.isfile('./notes/{}/{}.txt'.format(name, name_of_note)) == False:
+			print('Note not found\n')
 
 		#if folder is empty
 		elif os.listdir('./notes/{}'.format(name)) == []:
@@ -61,13 +65,12 @@ class Notes:
 	def remove(name, name_of_note):
 
 		#if there is no folder, create one
-		if Notes.checkFolder(name) == False:
-			os.system(f'cmd /c "cd notes & mkdir {name}"')
-			print('You have no notes!\n')
+		if os.path.isfile('./notes/{}/{}.txt'.format(name, name_of_note)) == False:
+			print('Note not found\n')
 
 		#if the folder is empty
 		elif os.listdir('./notes/{}'.format(name)) == []:
-			print('You have no notes!\n')
+			print('You have no notes\n')
 
 		else:
 			os.remove('./notes/{}/{}.txt'.format(name, name_of_note))	#delete the file
@@ -77,19 +80,37 @@ class Notes:
 	def update(name, name_of_note, content):
 
 		#if there is no folder, create one
-		if Notes.checkFolder(name) == False:
-			os.system(f'cmd /c "cd notes & mkdir {name}"')
-			print('You have no notes!\n')
+		if os.path.isfile('./notes/{}/{}.txt'.format(name, name_of_note)) == False:
+			print('Note not found\n')
 
 		#if the folder is empty
 		elif os.listdir('./notes/{}'.format(name)) == []:
-			print('You have no notes!\n')
+			print('You have no notes\n')
 
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'w')
 			file.write(content+'\n')
 			file.close()
 			print('Note updated succesully\n')
+
+class Speak:
+
+	#convert text to speech a note of user
+	def noteToSpeech(name, name_of_note):
+
+		#setup python text-to-speech
+		engine = pyttsx3.init()
+		engine.setProperty('rate', 150)
+
+		if os.path.isfile('./notes/{}/{}.txt'.format(name, name_of_note)) == False: #if task list is empty
+			engine.say('Note not found!')
+			engine.runAndWait()
+
+		else:
+			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
+			obj = file.read()
+			engine.say(obj)
+			engine.runAndWait()
 
 '''
 made by Devansh Singh, 2020

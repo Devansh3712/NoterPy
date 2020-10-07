@@ -155,7 +155,8 @@ if flag == True:
 				print('3. Add a note')
 				print('4. Remove a note')
 				print('5. Update a note')
-				print('6. Return to main menu')
+				print('6. Speak a note')
+				print('7. Return to main menu')
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -187,8 +188,12 @@ if flag == True:
 					content = input('Enter content to be updated: ')
 					un.Notes.update(name, name_of_note, content)
 
-				#exit the note loop, return to main menu
 				elif user_prompt_list == '6':
+					name_of_note = input('Enter name of note: ')
+					un.Speak.noteToSpeech(name, name_of_note)
+
+				#exit the note loop, return to main menu
+				elif user_prompt_list == '7':
 					break
 
 				#if any other option is chosen
@@ -205,6 +210,7 @@ if flag == True:
 				print('1. Update user name')
 				print('2. Remove user')
 				print('3. Return to main menu')
+				print()
 
 				user_prompt_list = input('Enter your choice: ')
 				print()
