@@ -1,0 +1,8 @@
+mysql==0.0.2
+mysql-connector==2.2.9
+mysql-connector-python==8.0.21
+mysqlclient==2.0.1
+playsound==1.2.2
+pyttsx3==2.90
+SpeechRecognition==3.8.1
+sqlparse==0.3.1
