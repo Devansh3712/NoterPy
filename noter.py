@@ -85,10 +85,9 @@ if flag == True:
 
 		#contents of program
 		print('1. My to-do list')
-		print('2. My important dates')
-		print('3. My notes')
-		print('4. Settings')
-		print('5. Exit')
+		print('2. My notes')
+		print('3. Settings')
+		print('4. Exit')
 		print()
 
 		#input of user's choice
@@ -166,7 +165,7 @@ if flag == True:
 				print()
 
 		#notes
-		elif user_prompt == '3':
+		elif user_prompt == '2':
 
 			while True:
 
@@ -244,7 +243,7 @@ if flag == True:
 				print()
 
 		#user settings
-		elif user_prompt == '4':
+		elif user_prompt == '3':
 
 			while True:
 
@@ -286,7 +285,7 @@ if flag == True:
 				print()
 
 		#exit the program
-		elif user_prompt == '5':
+		elif user_prompt == '4':
 			print('Thankyou for using NoterPy :)\n')
 			break
 
