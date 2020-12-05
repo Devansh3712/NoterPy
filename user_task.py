@@ -10,7 +10,7 @@ try:
 	import speech_recognition as sr
 	import user_db as udb
 except:
-	print('Required modules not installed\n')
+	print('modules for speech recognition and tts not setup\n')
 	exit()
 
 class Task:
@@ -44,7 +44,7 @@ class Task:
 	def add(name, task):
 
 		file = open('./to-do-list/{}.txt'.format(name), 'a')
-		file.write(task+'\n')
+		file.write(task + '\n')
 		file.close()
 		name = name.lower()
 		udb.Task.add(name, task)

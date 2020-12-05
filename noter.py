@@ -1,10 +1,5 @@
 '''
-before running the program, type the
-following command in terminal/CMD:
-
-terminal > python3 -m pip install -r requirements.txt
-
-CMD > python -m pip install -r requirements.txt
+main noterpy program
 '''
 
 try:
@@ -16,13 +11,14 @@ try:
 	#extra libraries
 	import time
 	import datetime
+	import getpass
 
 except:
 	print('Required modules not installed, terminating\n')
 	exit()
 
 #ascii art for program
-ASCII = """
+ASCII = '''
   _   _       _            _____       
  | \ | |     | |          |  __ \      
  |  \| | ___ | |_ ___ _ __| |__) |   _ 
@@ -31,7 +27,7 @@ ASCII = """
  |_| \_|\___/ \__\___|_|  |_|    \__, |
                                   __/ |
                                  |___/ 
-"""
+'''
 
 print(ASCII)
 time.sleep(1)
@@ -47,13 +43,19 @@ name = ''
 while True:
 
 	username = input('Enter name: ')
+	password = getpass.getpass(prompt = 'Password: ')
 	print()
 
-	#if user exists in user.txt
-	if nu.User.check(username) == True:
+	#if user exists in database
+	if nu.User.check(username, password) == True:
 		print(f'Hello, {username}\nHope you\'re having a nice day!\n')
 		flag = True
 		name = username
+		break
+
+	#if user's password is wrong
+	elif nu.User.check(username, password) == "wrong pass":
+		user_prompt = input("Wrong password, terminating program\n")
 		break
 
 	#if user doesn't exist in user.txt
@@ -63,7 +65,7 @@ while True:
 
 		#add new user
 		if user_prompt.lower() == 'y':
-			nu.User.new(username)
+			nu.User.new(username, password)
 			print(f'Welcome, {username}\n')
 			flag = True
 			name = username
@@ -258,14 +260,16 @@ if flag == True:
 				#update name of user
 				if user_prompt_list == '1':
 					new_name = input('Enter the new name of user: ')
-					nu.User.update(name, new_name)
+					password = getpass.getpass(prompt = "Password: ")
+					nu.User.update(name, new_name, password)
 
 				#delete all data of user
 				elif user_prompt_list == '2':
 					con = input('All user data will be deleted. Do you want to continue? Y/N: ')
 
 					if con.lower() == 'y':
-						nu.User.delete(name)
+						password = getpass.getpass(prompt = "Password: ")
+						nu.User.delete(name, password)
 
 					elif con.lower() == 'n':
 						print('Returning to main menu')

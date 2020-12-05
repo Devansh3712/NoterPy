@@ -8,7 +8,7 @@ try:
 	import pyttsx3
 	import speech_recognition as sr
 except:
-	print('Required modules not installed\n')
+	print('modules for speech recognition and tts not setup\n')
 	exit()
 
 class Notes:
