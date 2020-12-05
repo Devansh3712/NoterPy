@@ -33,7 +33,7 @@ class Notes:
 		else:
 			obj = os.listdir('./notes/{}'.format(name))
 			for i in range (len(obj)):
-				print('---> ' + str(i+1) + " " + obj[i][:-3])
+				print('---> ' + str(i + 1) + " " + obj[i][:-3])
 
 	#show the contents of a note
 	def show(name, name_of_note):
@@ -121,16 +121,15 @@ class Speech:
 		#setup python speech-to-text
 		r = sr.Recognizer()
 
-		try:
-			with sr.Microphone() as source:
-				audio = r.record(source, duration=30)
-				converted = r.recognize_google(audio)
-				converted = converted.lower()
-				return converted
+		with sr.Microphone() as source:
+			try:
+					audio = r.record(source, duration=30)
+					converted = r.recognize_google(audio)
+					converted = converted.lower()
+					return converted
 
-		except:
-			return False
-			pass
+			except:
+				return False
 
 '''
 made by Devansh Singh, 2020

@@ -22,7 +22,7 @@ except:
 	exit()
 
 #ascii art for program
-ASCII = '''
+ASCII = """
   _   _       _            _____       
  | \ | |     | |          |  __ \      
  |  \| | ___ | |_ ___ _ __| |__) |   _ 
@@ -31,7 +31,7 @@ ASCII = '''
  |_| \_|\___/ \__\___|_|  |_|    \__, |
                                   __/ |
                                  |___/ 
-'''
+"""
 
 print(ASCII)
 time.sleep(1)

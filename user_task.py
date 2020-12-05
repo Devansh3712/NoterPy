@@ -123,16 +123,15 @@ class Speech:
 
 		r = sr.Recognizer()
 
-		try:
-			with sr.Microphone() as source:
-				audio = r.record(source, duration=10)
-				converted = r.recognize_google(audio)
-				converted = converted.lower()
-				return converted
+		with sr.Microphone() as source:
+			try:
+					audio = r.record(source, duration=10)
+					converted = r.recognize_google(audio)
+					converted = converted.lower()
+					return converted
 
-		except:
-			return False
-			pass
+			except:
+				return False
 
 '''
 made by Devansh Singh, 2020

@@ -11,7 +11,7 @@ try:
 	import mysql.connector as mc
 	connectMySQL = mc.connect(host='localhost', user='root', password='root')
 except:
-	print('Required modules not installed\n')
+	print('mysql setup not present\n')
 	exit()
 
 #cursor object to execute queries
