@@ -38,7 +38,7 @@ Before running `noterpy`, change the `MySQL` user credentials in `user_db.py` fi
 ```python
 try:
 	import mysql.connector as mc
-	connectMySQL = mc.connect(host='localhost', user='user_name', password='user_password') #add specific credentials
+	connectMySQL = mc.connect(host='localhost', user='user_name', password='user_password')
 except:
 	print('module for mysql not setup\n')
 	exit()
