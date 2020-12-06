@@ -24,6 +24,10 @@ cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varc
 
 class User:
 
+	def show_all_users():
+		cursor.execute('select name from users')
+		return cursor.fetchall()
+
 	#check if name exists in user table
 	def check(name, password):
 		sql = f'select password from users where name = "{name}"'
@@ -40,8 +44,7 @@ class User:
 	#adding a user to the user table
 	def insert(name, password):
 
-		cursor.execute('select name from users')
-		result = cursor.fetchall()
+		result = User.show_all_users()
 		for i in result:
 			if i[0] == name:
 				return False
@@ -65,18 +68,19 @@ class User:
 	#updating the name of a user
 	def update(old_name, new_name):
 
-		cursor.execute('select name from users')
-		result = cursor.fetchall()
+		result = User.show_all_users()
 		for i in result:
 			if i[0] == new_name:
 				return False
 		
-		sql = f'update users set name="{new_name}" where name="{old_name}"'
-		cursor.execute(sql)
-		connectMySQL.commit()
-		sql = f'rename table {old_name} to {new_name}'
-		cursor.execute(sql)
-		connectMySQL.commit()
+		try:
+			sql = f'update users set name="{new_name}" where name="{old_name}"'
+			cursor.execute(sql)
+			sql = f'rename table {old_name} to {new_name}'
+			cursor.execute(sql)
+			connectMySQL.commit()
+		except:
+			pass
 		return True
 
 	def change_password(name, new_password):

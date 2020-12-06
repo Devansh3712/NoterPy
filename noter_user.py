@@ -72,7 +72,7 @@ class User:
 			else: #if it is a unique username
 				try:
 					os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
-					os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_file}.txt') #update the name of to-do list 
+					os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_name}.txt') #update the name of to-do list 
 				except:
 					pass
 				return True
