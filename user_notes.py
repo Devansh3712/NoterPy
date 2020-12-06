@@ -33,7 +33,7 @@ class Notes:
 		else:
 			obj = os.listdir('./notes/{}'.format(name))
 			for i in range (len(obj)):
-				print('---> ' + str(i + 1) + " " + obj[i][:-3])
+				print('---> ' + str(i + 1) + ". " + obj[i][:-4])
 
 	#show the contents of a note
 	def show(name, name_of_note):
@@ -123,7 +123,7 @@ class Speech:
 
 		with sr.Microphone() as source:
 			try:
-					audio = r.record(source, duration=30)
+					audio = r.record(source, duration=30) #record input for 30 seconds
 					converted = r.recognize_google(audio)
 					converted = converted.lower()
 					return converted
