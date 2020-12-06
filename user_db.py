@@ -58,6 +58,9 @@ class User:
 		sql = f'delete from users where name="{name}"'
 		cursor.execute(sql)
 		connectMySQL.commit()
+		sql = f'drop table {name}'
+		cursor.execute(sql)
+		connectMySQL.commit()
 
 	#updating the name of a user
 	def update(old_name, new_name):
@@ -69,6 +72,9 @@ class User:
 				return False
 		
 		sql = f'update users set name="{new_name}" where name="{old_name}"'
+		cursor.execute(sql)
+		connectMySQL.commit()
+		sql = f'rename table {old_name} to {new_name}'
 		cursor.execute(sql)
 		connectMySQL.commit()
 		return True

@@ -22,10 +22,11 @@ class User:
 	#create a new user
 	def new(name, password):
 
-		if udb.User.insert(name, password) == False: #insert name of user into database
+		if udb.User.insert(name, password) == False: #check if the same name exists in database
 			return False
 		
-		else:
+		else: #if it is a unique username
+
 			try:
 				os.system(f'cmd /c "cd notes & mkdir {name}"') #create notes folder for user
 				file = open('./to-do-list/{}.txt'.format(name), 'a') #create to-do list for user
@@ -65,9 +66,10 @@ class User:
 
 		else:
 			
-			if udb.User.update(old_name, new_name) == False: #update name in database
+			if udb.User.update(old_name, new_name) == False: #check whether same name exists in database
 				return False
-			else:
+
+			else: #if it is a unique username
 				try:
 					os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
 					os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_file}.txt') #update the name of to-do list 
