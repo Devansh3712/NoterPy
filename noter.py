@@ -65,11 +65,13 @@ while True:
 
 		#add new user
 		if user_prompt.lower() == 'y':
-			nu.User.new(username, password)
-			print(f'Welcome, {username}\n')
-			flag = True
-			name = username
-			break
+			if nu.User.new(username, password) == False:
+				print('Username already exists, try another name\n')
+			else:
+				print(f'Welcome, {username}\n')
+				flag = True
+				name = username
+				break
 
 		#terminate the program
 		elif user_prompt.lower() == 'n':
@@ -128,7 +130,7 @@ if flag == True:
 					task = ut.Speech.speechToTask()
 
 					if task != False:
-						print('Did you say: '+task+' ?'+'\n')
+						print('Did you say: ' + task + '?' + '\n')
 						user_input = input('Y/N: ')
 
 						if user_input.lower() == 'y':
@@ -206,7 +208,7 @@ if flag == True:
 					content = un.Speech.speechToNote()
 
 					if content != False:
-						print('Did you say: '+content+' ?'+'\n')
+						print('Did you say: ' + content + '?' + '\n')
 						user_input = input('Y/N: ')
 
 						if user_input.lower() == 'y':
@@ -249,9 +251,10 @@ if flag == True:
 
 			while True:
 
-				print('1. Update user name')
-				print('2. Remove user')
-				print('3. Return to main menu')
+				print('1. Change user name')
+				print('2. Change user password')
+				print('3. Remove user')
+				print('4. Return to main menu')
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -261,10 +264,18 @@ if flag == True:
 				if user_prompt_list == '1':
 					new_name = input('Enter the new name of user: ')
 					password = getpass.getpass(prompt = "Password: ")
-					nu.User.update(name, new_name, password)
+					if nu.User.update(name, new_name, password) == False:
+						print('Username already exists, try another name\n')
+					else:
+						print('User name changed successfully\n')
+
+				elif user_prompt_list == '2':
+					password = getpass.getpass(prompt = "Current Password: ")
+					new_password = getpass.getpass(prompt = "New Password: ")
+					nu.User.change_pass(name, password, new_password)
 
 				#delete all data of user
-				elif user_prompt_list == '2':
+				elif user_prompt_list == '3':
 					con = input('All user data will be deleted. Do you want to continue? Y/N: ')
 
 					if con.lower() == 'y':
@@ -279,7 +290,7 @@ if flag == True:
 						print('Choose a valid option\n')
 
 				#exit the settings loop, return to main menu
-				elif user_prompt_list == '3':
+				elif user_prompt_list == '4':
 					break
 
 				#if any other option is chosen

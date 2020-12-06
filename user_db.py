@@ -40,10 +40,17 @@ class User:
 	#adding a user to the user table
 	def insert(name, password):
 
+		cursor.execute('select name from users')
+		result = cursor.fetchall()
+		for i in result:
+			if i[0] == name:
+				return False
+
 		cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varchar(30))')
 		sql = f'insert into users values ("{name}", "{password}")'
 		cursor.execute(sql)
 		connectMySQL.commit()
+		return True
 
 	#removing a user from the user table
 	def remove(name):
@@ -51,15 +58,26 @@ class User:
 		sql = f'delete from users where name="{name}"'
 		cursor.execute(sql)
 		connectMySQL.commit()
-		return True
 
 	#updating the name of a user
 	def update(old_name, new_name):
 
+		cursor.execute('select name from users')
+		result = cursor.fetchall()
+		for i in result:
+			if i[0] == new_name:
+				return False
+		
 		sql = f'update users set name="{new_name}" where name="{old_name}"'
 		cursor.execute(sql)
 		connectMySQL.commit()
 		return True
+
+	def change_password(name, new_password):
+
+		sql = f'update users set password="{new_password}" where name = "{name}"'
+		cursor.execute(sql)
+		connectMySQL.commit()
 
 class Task:
 

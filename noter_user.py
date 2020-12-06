@@ -22,13 +22,17 @@ class User:
 	#create a new user
 	def new(name, password):
 
-		udb.User.insert(name, password) #insert name of user into database
-		try:
-			os.system(f'cmd /c "cd notes & mkdir {name}"') #create notes folder for user
-			file = open('./to-do-list/{}.txt'.format(name), 'a') #create to-do list for user
-			file.close()
-		except:
-			pass
+		if udb.User.insert(name, password) == False: #insert name of user into database
+			return False
+		
+		else:
+			try:
+				os.system(f'cmd /c "cd notes & mkdir {name}"') #create notes folder for user
+				file = open('./to-do-list/{}.txt'.format(name), 'a') #create to-do list for user
+				file.close()
+			except:
+				pass
+			return True
 
 	#delete a user
 	def delete(name, password):
@@ -47,7 +51,8 @@ class User:
 			except:
 				pass
 			udb.User.remove(name) #remove user from database
-			print('User removed successfully\n')
+			print('User removed successfully\nTerminating Program\n')
+			exit()
 
 	#update a user's name
 	def update(old_name, new_name, password):
@@ -59,14 +64,28 @@ class User:
 			print("Wrong Password\n")
 
 		else:
+			
+			if udb.User.update(old_name, new_name) == False: #update name in database
+				return False
+			else:
+				try:
+					os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
+					os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_file}.txt') #update the name of to-do list 
+				except:
+					pass
+				return True
 
-			try:
-				os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
-				os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_file}.txt') #update the name of to-do list 
-			except:
-				pass
-			udb.User.update(old_name, new_name) #update name in database
-			print('User name changed successfully\n')
+	def change_pass(name, old_password, new_password):
+
+		if User.check(name, old_password) == False:
+			print('User not found\n')
+
+		elif User.check(name, old_password) == "Wrong Password":
+			print("Wrong Password\n")
+
+		else:
+			udb.User.change_password(name, new_password) #Change the User's password in database
+			print('Password changed succesfully\n')
 
 '''
 made by Devansh Singh, 2020
