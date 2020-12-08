@@ -29,6 +29,57 @@ ASCII = '''
                                  |___/ 
 '''
 
+main_menu = '''
++-------------------+
+|Main Menu          |
++-------------------+
+|1. My to-do list   |
+|2. My notes        |
+|3. Settings        |
+|4. Exit            |
++-------------------+
+'''
+
+task_menu = '''
++---------------------------+
+|To-do List                 |
++---------------------------+
+|1. Show to-do list         |
+|2. Add a task              |
+|3. Add a task by speaking  |
+|4. Remove a task           |
+|5. Update a task           |
+|6. Speak the to-do list    |
+|7. Return to main menu     |
++---------------------------+
+'''
+
+note_menu = '''
++---------------------------+
+|Notes                      |
++---------------------------+
+|1. Show list of notes      |
+|2. Show a note             |
+|3. Add a note              |
+|4. Add a note by speaking  |
+|5. Remove a note           |
+|6. Update a note           |
+|7. Speak a note            |
+|8. Return to main menu     |
++---------------------------+
+'''
+
+settings_menu = '''
++-------------------------+
+|Settings                 |
++-------------------------+
+|1. Change user name      |
+|2. Change user password  |
+|3. Remove user           |
+|4. Return to main menu   |
++-------------------------+
+'''
+
 print(ASCII)
 time.sleep(1)
 
@@ -88,10 +139,7 @@ if flag == True:
 	while True:
 
 		#contents of program
-		print('1. My to-do list')
-		print('2. My notes')
-		print('3. Settings')
-		print('4. Exit')
+		print(main_menu)
 		print()
 
 		#input of user's choice
@@ -103,13 +151,7 @@ if flag == True:
 
 			while True:
 
-				print('1. Show to-do list')
-				print('2. Add a task')
-				print('3. Add a task by speaking')
-				print('4. Remove a task')
-				print('5. Update a task')
-				print('6. Speak the to-do list')
-				print('7. Return to main menu')
+				print(task_menu)
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -173,14 +215,7 @@ if flag == True:
 
 			while True:
 
-				print('1. Show list of notes')
-				print('2. Show a note')
-				print('3. Add a note')
-				print('4. Add a note by speaking')
-				print('5. Remove a note')
-				print('6. Update a note')
-				print('7. Speak a note')
-				print('8. Return to main menu')
+				print(note_menu)
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
@@ -251,10 +286,7 @@ if flag == True:
 
 			while True:
 
-				print('1. Change user name')
-				print('2. Change user password')
-				print('3. Remove user')
-				print('4. Return to main menu')
+				print(settings_menu)
 				print()
 
 				user_prompt_list = input('Enter your choice: ')
