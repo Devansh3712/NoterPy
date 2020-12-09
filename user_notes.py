@@ -5,8 +5,10 @@ a user, saved in directory notes
 
 try:
 	import os
+	import onetimepad as ot
 	import pyttsx3
 	import speech_recognition as sr
+	import user_db as udb
 except:
 	print('modules for speech recognition and tts not setup\n')
 	exit()
@@ -48,7 +50,10 @@ class Notes:
 
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
-			print(file.read())
+			password = udb.User.crypt_key(name)
+			obj = file.read().strip()
+			obj = ot.decrypt(obj, password)
+			print(obj)
 
 	#add a new note
 	def add(name, name_of_note, content):
@@ -58,6 +63,8 @@ class Notes:
 			os.system(f'cmd /c "cd notes & mkdir {name}"')
 		
 		file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'a')
+		password = udb.User.crypt_key(name)
+		content = ot.encrypt(content, password)
 		file.write(content+'\n')
 		file.close()
 		print('Note made succesfully\n')
@@ -90,6 +97,8 @@ class Notes:
 
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'w')
+			password = udb.User.crypt_key(name)
+			content = ot.encrypt(content, password)
 			file.write(content+'\n')
 			file.close()
 			print('Note updated succesully\n')
@@ -110,6 +119,8 @@ class Speak:
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
 			obj = file.read()
+			password = udb.User.crypt_key(name)
+			obj = ot.decrypt(obj, password)
 			engine.say(obj)
 			engine.runAndWait()
 

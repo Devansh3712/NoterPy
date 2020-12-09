@@ -6,6 +6,7 @@ to-do-list folder
 
 try:
 	import os
+	import onetimepad as ot
 	import pyttsx3
 	import speech_recognition as sr
 	import user_db as udb
@@ -37,17 +38,20 @@ class Task:
 		else:
 			file = open('./to-do-list/{}.txt'.format(name), 'r')
 			obj = file.read().splitlines()
+			password = udb.User.crypt_key(name)
 			for i in range (len(obj)):
+				obj[i] = ot.decrypt(obj[i], password)
 				print('---> ' + str(i+1) + '. ' + obj[i] + '\n') #prints tasks one by one
 
 	#add a task to the list of tasks
 	def add(name, task):
 
+		udb.Task.add(name, task)
 		file = open('./to-do-list/{}.txt'.format(name), 'a')
+		password = udb.User.crypt_key(name)
+		task = ot.encrypt(task, password)
 		file.write(task + '\n')
 		file.close()
-		name = name.lower()
-		udb.Task.add(name, task)
 		print('Task was successfully added\n')
 
 	#remove a task from the list of tasks
@@ -85,7 +89,9 @@ class Task:
 		else:
 			for i in range (len(obj)):
 				if i == int(number) - 1:
-					udb.Task.update(name.lower(), obj[i], new_task) #update in MySQL
+					udb.Task.update(name, obj[i], new_task) #update in MySQL
+					password = udb.User.crypt_key(name)
+					new_task = ot.encrypt(new_task, password)
 					obj[i] = new_task
 					new_file.write(obj[i]+'\n')
 				else:
@@ -112,7 +118,9 @@ class Speak:
 		else:
 			file = open('./to-do-list/{}.txt'.format(name), 'r')
 			obj = file.read().splitlines()
+			password = udb.User.crypt_key(name)
 			for i in obj:
+				i = ot.decrypt(i, password)
 				engine.say(i)
 				engine.runAndWait()
 

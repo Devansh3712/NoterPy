@@ -8,6 +8,8 @@ using the database
 
 #importing mysql-connector library and set up
 try:
+	import random
+	import string
 	import mysql.connector as mc
 	connectMySQL = mc.connect(host='localhost', user='root', password='root') #add specific credentials
 except:
@@ -20,10 +22,18 @@ cursor = connectMySQL.cursor(buffered = True)
 #making the database for NoterPy if it doesn't exist
 cursor.execute('create database IF NOT EXISTS noterpy')
 cursor.execute('use noterpy')
-cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varchar(30))')
+cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varchar(30), cryptkey varchar(10))')
 
 class User:
 
+	def generate_pass():
+		password_char = string.ascii_letters + string.digits + string.punctuation
+		password = ''
+		for i in range (10):
+			password += random.choice(password_char)
+		return password
+
+	#show all usernames in database
 	def show_all_users():
 		cursor.execute('select name from users')
 		return cursor.fetchall()
@@ -49,8 +59,8 @@ class User:
 			if i[0] == name:
 				return False
 
-		cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varchar(30))')
-		sql = f'insert into users values ("{name}", "{password}")'
+		cryptkey = User.generate_pass()
+		sql = f'insert into users values ("{name}", "{password}", "{cryptkey}")'
 		cursor.execute(sql)
 		connectMySQL.commit()
 		return True
@@ -83,11 +93,18 @@ class User:
 			pass
 		return True
 
+	#change password of a user
 	def change_password(name, new_password):
 
 		sql = f'update users set password="{new_password}" where name = "{name}"'
 		cursor.execute(sql)
 		connectMySQL.commit()
+
+	def crypt_key(name):
+		sql = f'select cryptkey from users where name = "{name}"'
+		cursor.execute(sql)
+		key = cursor.fetchone()
+		return key[0]
 
 class Task:
 
