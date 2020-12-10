@@ -118,7 +118,7 @@ class Speak:
 
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
-			obj = file.read()
+			obj = file.read().strip()
 			password = udb.User.crypt_key(name)
 			obj = ot.decrypt(obj, password)
 			engine.say(obj)
