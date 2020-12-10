@@ -147,7 +147,8 @@ class User:
 			return False
 		else:
 			file = open(f'./logs/{file_name}.txt', 'w')
-			file.write(str(result))
+			for i in result:
+				file.write(str(i) + '\n')
 			file.close()
 
 #class for maintaining logs of a user
