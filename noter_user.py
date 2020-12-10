@@ -5,6 +5,7 @@ and other settings
 
 import os
 import user_db as udb 
+import shutil
 
 class User:
 
@@ -47,7 +48,7 @@ class User:
 		else:
 
 			try:
-				os.remove(f'./notes/{name}') #remove notes of user
+				shutil.rmtree(f'./notes/{name}') #remove notes of user
 				os.remove(f'./to-do-list/{name}.txt') #remove to-do list of user
 			except:
 				pass
