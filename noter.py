@@ -36,7 +36,8 @@ main_menu = '''
 |1. My to-do list   |
 |2. My notes        |
 |3. Settings        |
-|4. Exit            |
+|4. About           |
+|5. Exit            |
 +-------------------+
 '''
 
@@ -78,6 +79,24 @@ settings_menu = '''
 |3. Remove user           |
 |4. Return to main menu   |
 +-------------------------+
+'''
+
+info = '''
++-------------------------------------------------------------------------------+
+|About                                                                          |
++-------------------------------------------------------------------------------+
+|NoterPy is a tasks and notes management program, made using Python and MySQL.  |
+|It is an open-sourced project, available on GitHub. It is a secure system      |
+|for maintaining information as it generates a unique key for each user,        |
+|which is used to encrypt and decrypt information stored by them in the         |
+|database.                                                                      |
+|                                                                               |
+|NoterPy uses self-made and external modules, along with MySQL database for     |
+|storing user credentials and their logs. Contributions can be made to the      |
+|project by visiting the official GitHub page for NoterPy.                      |
+|                                                                               |
+|Visit: https://github.com/Devansh3712/NoterPy                                  |
++-------------------------------------------------------------------------------+
 '''
 
 print(ASCII)
@@ -331,8 +350,12 @@ if flag == True:
 
 				print()
 
-		#exit the program
 		elif user_prompt == '4':
+			print(info)
+			print()
+
+		#exit the program
+		elif user_prompt == '5':
 			print('Thankyou for using NoterPy :)\n')
 			break
 
