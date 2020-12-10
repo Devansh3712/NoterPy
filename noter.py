@@ -7,6 +7,7 @@ try:
 	import noter_user as nu
 	import user_task as ut
 	import user_notes as un
+	import user_db as udb
 
 	#extra libraries
 	import time
@@ -77,7 +78,8 @@ settings_menu = '''
 |1. Change user name      |
 |2. Change user password  |
 |3. Remove user           |
-|4. Return to main menu   |
+|4. Export logs           |
+|5. Return to main menu   |
 +-------------------------+
 '''
 
@@ -340,8 +342,18 @@ if flag == True:
 					else:
 						print('Choose a valid option\n')
 
-				#exit the settings loop, return to main menu
+				#export logs of a user
 				elif user_prompt_list == '4':
+					
+					date = input('Date for logs (DD/MM/YYYY): ')
+					
+					if udb.User.export_logs(name, date) == False:
+						print(f'No logs available for {date}\n')
+					else:
+						print(f'Logs for date {date} exported succesfully into logs directory\n')
+
+				#exit the settings loop, return to main menu
+				elif user_prompt_list == '5':
 					break
 
 				#if any other option is chosen

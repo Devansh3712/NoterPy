@@ -135,6 +135,21 @@ class User:
 		key = cursor.fetchone()
 		return key[0]
 
+	#export the logs of a user for a given date
+	def export_logs(name, date):
+		sql = f'select * from {name} where date = "{date}"'
+		cursor.execute(sql)
+		result = cursor.fetchall()
+		file_name = date.split('/')
+		file_name = '.'.join(file_name)
+		file_name = name + '(' + file_name + ')'
+		if result is None:
+			return False
+		else:
+			file = open(f'./logs/{file_name}.txt', 'w')
+			file.write(str(result))
+			file.close()
+
 #class for maintaining logs of a user
 class Logs:
 
