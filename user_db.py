@@ -8,6 +8,7 @@ using the database
 
 #importing mysql-connector library and set up
 try:
+	from datetime import datetime
 	import random
 	import string
 	import mysql.connector as mc
@@ -26,6 +27,7 @@ cursor.execute('create table IF NOT EXISTS users(name varchar(30), password varc
 
 class User:
 
+	#generate a cryptkey for encrypting and decrypting a user's content
 	def generate_pass():
 		password_char = string.ascii_letters + string.digits + string.punctuation
 		password = ''
@@ -60,18 +62,35 @@ class User:
 				return False
 
 		cryptkey = User.generate_pass()
-		sql = f'insert into users values ("{name}", "{password}", "{cryptkey}")'
+		sql = f'insert into users values ("{name}", "{password}", "{cryptkey}")' #enter user info into database
 		cursor.execute(sql)
+
+		cursor.execute(f'create table IF NOT EXISTS {name}(date varchar(10), log varchar(100), time varchar(10))') #create a table for user logs
+
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "new user {name} created", "{time}")')
 		connectMySQL.commit()
 		return True
 
 	#removing a user from the user table
 	def remove(name):
 
-		sql = f'delete from users where name="{name}"'
+		sql = f'delete from users where name="{name}"' #remove user details
 		cursor.execute(sql)
 		connectMySQL.commit()
-		sql = f'drop table {name}'
+
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "removed user {name}", "{time}")') #update user logs
+
+		file = open(f'./logs/{name}.txt', 'a')
+		cursor.execute(f'select * from {name}')
+		result = cursor.fetchall()
+		file.write(str(result))
+		file.close() #export user logs
+
+		sql = f'drop table {name}' #delete user logs table
 		cursor.execute(sql)
 		connectMySQL.commit()
 
@@ -84,10 +103,15 @@ class User:
 				return False
 		
 		try:
-			sql = f'update users set name="{new_name}" where name="{old_name}"'
+			sql = f'update users set name="{new_name}" where name="{old_name}"' #update the user name in users table
 			cursor.execute(sql)
-			sql = f'rename table {old_name} to {new_name}'
+
+			sql = f'rename table {old_name} to {new_name}' #update user name in user's logs table
 			cursor.execute(sql)
+
+			date = datetime.now().strftime("%d/%m/%Y")
+			time = datetime.now().strftime("%X")
+			cursor.execute(f'insert into {new_name} values ("{date}", "updated username from {old_name} to {new_name}", "{time}")') #update logs for user
 			connectMySQL.commit()
 		except:
 			pass
@@ -96,60 +120,71 @@ class User:
 	#change password of a user
 	def change_password(name, new_password):
 
-		sql = f'update users set password="{new_password}" where name = "{name}"'
+		sql = f'update users set password="{new_password}" where name = "{name}"' #change password of a user
 		cursor.execute(sql)
+
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "updated password", "{time}")') #update logs of the user
 		connectMySQL.commit()
 
+	#return cryptkey of a user
 	def crypt_key(name):
 		sql = f'select cryptkey from users where name = "{name}"'
 		cursor.execute(sql)
 		key = cursor.fetchone()
 		return key[0]
 
-class Task:
+#class for maintaining logs of a user
+class Logs:
 
-	#check if a table of to-do list for user exists
-	def check(name):
-		sql = f'show tables'
-		cursor.execute(sql)
-		result = cursor.fetchall()
-		if name in result[0]:
-			return True
-		return False
+	#log for adding a new note
+	def add_note(name, name_of_note):
 
-	#add a task to the to-do list
-	def add(name, task):
-		cursor.execute(f'create table IF NOT EXISTS {name}(task varchar(21844))')
-		sql = f'insert into {name} values ("{task}")'
-		cursor.execute(sql)
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "added a new note {name_of_note}", "{time}")')
 		connectMySQL.commit()
 
-	#remove a task from the to-do list
-	def remove(name, task):
+	#log for updating a note
+	def update_note(name, name_of_note):
 
-		if Task.check(name) == False:
-			cursor.execute(f'create table {name}(task varchar(21844))')
-			return False
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "updated note {name_of_note}", "{time}")')
+		connectMySQL.commit()
 
-		else:
-			sql = f'delete from {name} where task="{task}"'
-			cursor.execute(sql)
-			connectMySQL.commit()
-			return True
+	#log for deleting a note
+	def delete_note(name, name_of_note):
 
-	#update a task in the to-do list
-	def update(name, task, new_task):
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "deleted note {name_of_note}", "{time}")')
+		connectMySQL.commit()
 
-		if Task.check(name) == False:
-			cursor.execute(f'create table {name}(task varchar(21844))')
-			return False
+	#log for adding a new task
+	def add_task(name):
 
-		else:
-			sql = f'update {name} set task="{new_task}" where task="{task}"'
-			cursor.execute(sql)
-			connectMySQL.commit()
-			return True
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "added a new task", "{time}")')
+		connectMySQL.commit()
 
+	#log for updating a task
+	def update_task(name, number):
+
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "updated task number {number}", "{time}")')
+		connectMySQL.commit()
+
+	#log for deleting a task
+	def delete_task(name, number):
+
+		date = datetime.now().strftime("%d/%m/%Y")
+		time = datetime.now().strftime("%X")
+		cursor.execute(f'insert into {name} values ("{date}", "deleted task number {number}", "{time}")')
+		connectMySQL.commit()
 
 '''
 made by Devansh Singh, 2020

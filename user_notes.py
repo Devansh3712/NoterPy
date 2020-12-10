@@ -52,7 +52,7 @@ class Notes:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
 			password = udb.User.crypt_key(name)
 			obj = file.read().strip()
-			obj = ot.decrypt(obj, password)
+			obj = ot.decrypt(obj, password) #decrypt contents of the note
 			print(obj)
 
 	#add a new note
@@ -64,9 +64,11 @@ class Notes:
 		
 		file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'a')
 		password = udb.User.crypt_key(name)
-		content = ot.encrypt(content, password)
+		content = ot.encrypt(content, password) #encrypt contents of note
 		file.write(content+'\n')
 		file.close()
+
+		udb.Logs.add_note(name, name_of_note) #update user logs
 		print('Note made succesfully\n')
 
 	#remove a note
@@ -81,7 +83,8 @@ class Notes:
 			print('You have no notes\n')
 
 		else:
-			os.remove('./notes/{}/{}.txt'.format(name, name_of_note))	#delete the file
+			os.remove('./notes/{}/{}.txt'.format(name, name_of_note))#delete the file
+			udb.Logs.delete_note(name, name_of_note) #update user logs
 			print('Note removed succesfully\n')
 
 	#update a note (previous data deletes)
@@ -98,9 +101,11 @@ class Notes:
 		else:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'w')
 			password = udb.User.crypt_key(name)
-			content = ot.encrypt(content, password)
+			content = ot.encrypt(content, password) #encrypt contents of updated note
 			file.write(content+'\n')
 			file.close()
+
+			udb.Logs.update_note(name, name_of_note) #update user logs
 			print('Note updated succesully\n')
 
 class Speak:
@@ -120,7 +125,7 @@ class Speak:
 			file = open('./notes/{}/{}.txt'.format(name, name_of_note), 'r')
 			obj = file.read().strip()
 			password = udb.User.crypt_key(name)
-			obj = ot.decrypt(obj, password)
+			obj = ot.decrypt(obj, password) #decrypt contents of note
 			engine.say(obj)
 			engine.runAndWait()
 

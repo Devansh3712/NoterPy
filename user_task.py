@@ -40,18 +40,19 @@ class Task:
 			obj = file.read().splitlines()
 			password = udb.User.crypt_key(name)
 			for i in range (len(obj)):
-				obj[i] = ot.decrypt(obj[i], password)
+				obj[i] = ot.decrypt(obj[i], password) #decrypt the contents of task
 				print('---> ' + str(i+1) + '. ' + obj[i] + '\n') #prints tasks one by one
 
 	#add a task to the list of tasks
 	def add(name, task):
 
-		udb.Task.add(name, task)
 		file = open('./to-do-list/{}.txt'.format(name), 'a')
 		password = udb.User.crypt_key(name)
-		task = ot.encrypt(task, password)
+		task = ot.encrypt(task, password) #encrypt the content of task
 		file.write(task + '\n')
 		file.close()
+
+		udb.Logs.add_task(name) #update logs of user
 		print('Task was successfully added\n')
 
 	#remove a task from the list of tasks
@@ -69,11 +70,13 @@ class Task:
 				if i != int(number) - 1:
 					new_file.write(obj[i]+'\n')
 				elif i == int(number) - 1:
-					udb.Task.remove(name.lower(), obj[i]) #remove from MySQL 
+					pass
 			file.close()
 			new_file.close()
 			os.remove('./to-do-list/{}.txt'.format(name))
 			os.rename('./to-do-list/new.txt', './to-do-list/{}.txt'.format(name))
+
+			udb.Logs.delete_task(name, number) #update logs of user
 			print('Task was successfully removed\n')
 
 	#update a task in the list of tasks
@@ -89,9 +92,8 @@ class Task:
 		else:
 			for i in range (len(obj)):
 				if i == int(number) - 1:
-					udb.Task.update(name, obj[i], new_task) #update in MySQL
 					password = udb.User.crypt_key(name)
-					new_task = ot.encrypt(new_task, password)
+					new_task = ot.encrypt(new_task, password) #encrypt the contents of task
 					obj[i] = new_task
 					new_file.write(obj[i]+'\n')
 				else:
@@ -100,6 +102,8 @@ class Task:
 			new_file.close()
 			os.remove('./to-do-list/{}.txt'.format(name))
 			os.rename('./to-do-list/new.txt', './to-do-list/{}.txt'.format(name))
+
+			udb.Logs.update_task(name, number) #update logs for user
 			print('Task was successfully updated\n')
 
 class Speak:	
@@ -120,7 +124,7 @@ class Speak:
 			obj = file.read().splitlines()
 			password = udb.User.crypt_key(name)
 			for i in obj:
-				i = ot.decrypt(i, password)
+				i = ot.decrypt(i, password) #decrypt the task
 				engine.say(i)
 				engine.runAndWait()
 
