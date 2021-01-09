@@ -8,7 +8,7 @@ try:
 	import onetimepad as ot
 	import pyttsx3
 	import speech_recognition as sr
-	import user_db as udb
+	import packages.user_db as udb
 except:
 	print('modules for speech recognition and tts not setup\n')
 	exit()

@@ -4,10 +4,10 @@ main noterpy program
 
 try:
 	#modules for NoterPy
-	import noter_user as nu
-	import user_task as ut
-	import user_notes as un
-	import user_db as udb
+	import packages.noter_user as nu
+	import packages.user_task as ut
+	import packages.user_notes as un
+	import packages.user_db as udb
 
 	#extra libraries
 	import time
