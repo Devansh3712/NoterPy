@@ -9,6 +9,7 @@ using the database
 #importing mysql-connector library and set up
 try:
 	from datetime import datetime
+	from tabulate import tabulate
 	import random
 	import string
 	import mysql.connector as mc
@@ -147,8 +148,7 @@ class User:
 			return False
 		else:
 			file = open(f'./logs/{file_name}.txt', 'w')
-			for i in result:
-				file.write(str(i) + '\n')
+			file.write(tabulate(result, headers = ['Date', 'Log', 'Time'], tablefmt = 'psql'))
 			file.close()
 
 #class for maintaining logs of a user
