@@ -1,16 +1,18 @@
 '''
 module for managing the queue of tasks
-of a user,  user file saved in 
-to-do-list folder
+of a user (./logs)
 '''
 
 try:
+
 	import os
 	import onetimepad as ot
 	import pyttsx3
 	import speech_recognition as sr
 	import packages.user_db as udb
+
 except:
+
 	print('modules for speech recognition and tts not setup\n')
 	exit()
 
@@ -20,10 +22,13 @@ class Task:
 	def check(name):
 
 		try:
-			file = open('./to-do-list/{}.txt'.format(name), 'r')
-			obj = file.read()
-			if len(obj)>0:
+
+			file 	= open('./to-do-list/{}.txt'.format(name), 'r')
+			obj 	= file.read()
+
+			if (len(obj) > 0):
 				return True
+
 			return False
 
 		except FileNotFoundError: #if user has no task list, create one
@@ -32,23 +37,26 @@ class Task:
 	#show the list of tasks
 	def show(name):
 
-		if Task.check(name) == False: #if task list is empty
+		if (Task.check(name) == False): #if task list is empty
 			print('No tasks in the to-do list!\n')
 
 		else:
-			file = open('./to-do-list/{}.txt'.format(name), 'r')
-			obj = file.read().splitlines()
-			password = udb.User.crypt_key(name)
+
+			file 		= open('./to-do-list/{}.txt'.format(name), 'r')
+			obj 		= file.read().splitlines()
+			password 	= udb.User.crypt_key(name)
+
 			for i in range (len(obj)):
+
 				obj[i] = ot.decrypt(obj[i], password) #decrypt the contents of task
 				print('---> ' + str(i+1) + '. ' + obj[i] + '\n') #prints tasks one by one
 
 	#add a task to the list of tasks
 	def add(name, task):
 
-		file = open('./to-do-list/{}.txt'.format(name), 'a')
-		password = udb.User.crypt_key(name)
-		task = ot.encrypt(task, password) #encrypt the content of task
+		file 		= open('./to-do-list/{}.txt'.format(name), 'a')
+		password 	= udb.User.crypt_key(name)
+		task 		= ot.encrypt(task, password) #encrypt the content of task
 		file.write(task + '\n')
 		file.close()
 
@@ -58,19 +66,23 @@ class Task:
 	#remove a task from the list of tasks
 	def remove(name, number):
 
-		file = open('./to-do-list/{}.txt'.format(name), 'r')
-		new_file = open('./to-do-list/new.txt', 'a')
-		obj = file.read().splitlines()
+		file 		= open('./to-do-list/{}.txt'.format(name), 'r')
+		new_file 	= open('./to-do-list/new.txt', 'a')
+		obj 		= file.read().splitlines()
 
-		if int(number) > len(obj): #if the given number of task is not valid
+		if (int(number) > len(obj)): #if the given number of task is not valid
 			print('Task not found\n')
 
 		else:
+
 			for i in range (len(obj)):
-				if i != int(number) - 1:
-					new_file.write(obj[i]+'\n')
-				elif i == int(number) - 1:
+
+				if (i != int(number) - 1):
+					new_file.write(obj[i] + '\n')
+
+				elif (i == int(number) - 1):
 					pass
+
 			file.close()
 			new_file.close()
 			os.remove('./to-do-list/{}.txt'.format(name))
@@ -82,22 +94,27 @@ class Task:
 	#update a task in the list of tasks
 	def update(name, number, new_task):
 
-		file = open('./to-do-list/{}.txt'.format(name), 'r')
-		new_file = open('./to-do-list/new.txt', 'a')
-		obj = file.read().splitlines()
+		file 		= open('./to-do-list/{}.txt'.format(name), 'r')
+		new_file 	= open('./to-do-list/new.txt', 'a')
+		obj 		= file.read().splitlines()
 
-		if int(number) > len(obj): #if the given number of task is not valid
+		if (int(number) > len(obj)): #if the given number of task is not valid
 			print('Task not found\n')
 
 		else:
+
 			for i in range (len(obj)):
-				if i == int(number) - 1:
-					password = udb.User.crypt_key(name)
-					new_task = ot.encrypt(new_task, password) #encrypt the contents of task
-					obj[i] = new_task
-					new_file.write(obj[i]+'\n')
+
+				if (i == int(number) - 1):
+
+					password 	= udb.User.crypt_key(name)
+					new_task 	= ot.encrypt(new_task, password) #encrypt the contents of task
+					obj[i] 		= new_task
+					new_file.write(obj[i] + '\n')
+
 				else:
-					new_file.write(obj[i]+'\n')
+					new_file.write(obj[i] + '\n')
+
 			file.close()
 			new_file.close()
 			os.remove('./to-do-list/{}.txt'.format(name))
@@ -115,15 +132,19 @@ class Speak:
 		engine = pyttsx3.init()
 		engine.setProperty('rate', 150)
 
-		if Task.check(name) == False: #if task list is empty
+		if (Task.check(name) == False): #if task list is empty
+
 			engine.say('No tasks in the to-do list!')
 			engine.runAndWait()
 
 		else:
-			file = open('./to-do-list/{}.txt'.format(name), 'r')
-			obj = file.read().splitlines()
-			password = udb.User.crypt_key(name)
+
+			file 		= open('./to-do-list/{}.txt'.format(name), 'r')
+			obj 		= file.read().splitlines()
+			password 	= udb.User.crypt_key(name)
+
 			for i in obj:
+
 				i = ot.decrypt(i, password) #decrypt the task
 				engine.say(i)
 				engine.runAndWait()
@@ -136,16 +157,18 @@ class Speech:
 		r = sr.Recognizer()
 
 		with sr.Microphone() as source:
+
 			try:
-					audio = r.record(source, duration=10)
-					converted = r.recognize_google(audio)
-					converted = converted.lower()
-					return converted
+
+				audio 		= r.record(source, duration=10)
+				converted 	= r.recognize_google(audio)
+				converted 	= converted.lower()
+				return converted
 
 			except:
 				return False
 
 '''
-made by Devansh Singh, 2020
-GitHub: Devansh3712
+NoterPy
+Devansh Singh, 2020
 '''

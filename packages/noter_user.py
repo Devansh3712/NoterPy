@@ -1,6 +1,6 @@
 '''
-module for maintaining user's name
-and other settings
+module for maintaining
+user information
 '''
 
 import os
@@ -29,11 +29,14 @@ class User:
 		else: #if it is a unique username
 
 			try:
+
 				os.system(f'cmd /c "cd notes & mkdir {name}"') #create notes folder for user
 				file = open('./to-do-list/{}.txt'.format(name), 'a') #create to-do list for user
 				file.close()
+
 			except:
 				pass
+
 			return True
 
 	#delete a user
@@ -48,10 +51,13 @@ class User:
 		else:
 
 			try:
+
 				shutil.rmtree(f'./notes/{name}') #remove notes of user
 				os.remove(f'./to-do-list/{name}.txt') #remove to-do list of user
+			
 			except:
 				pass
+
 			udb.User.remove(name) #remove user from database
 			print('User removed successfully\nTerminating Program\n')
 			exit()
@@ -71,11 +77,15 @@ class User:
 				return False
 
 			else: #if it is a unique username
+				
 				try:
+
 					os.rename(f'./notes/{old_name}', f'./notes/{new_name}') #update the name of notes folder
 					os.rename(f'./to-do-list/{old_name}.txt', f'./to-do-list/{new_name}.txt') #update the name of to-do list 
+				
 				except:
 					pass
+				
 				return True
 
 	def change_pass(name, old_password, new_password):
@@ -91,6 +101,6 @@ class User:
 			print('Password changed succesfully\n')
 
 '''
-made by Devansh Singh, 2020
-GitHub: Devansh3712
+NoterPy
+Devansh Singh, 2020
 '''

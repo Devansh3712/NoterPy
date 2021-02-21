@@ -1,5 +1,5 @@
 '''
-main noterpy program
+NoterPy executable file
 '''
 
 try:
@@ -376,6 +376,6 @@ if flag == True:
 			print('Choose a valid option\n')
 
 '''
-made by Devansh Singh, 2020
-GitHub: Devansh3712
+NoterPy
+Devansh Singh, 2020
 '''
