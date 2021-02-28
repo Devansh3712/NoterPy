@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ```
 > Linux
 ```console
-$ pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 > If any error arises for `mysqlclient` or `PyAudio`, refer to the following sites and download the `whl` file according to your Python version and system and install using `pip install "path to the downloaded .whl file"`
 > - `mysqlclient`: https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient
@@ -51,7 +51,7 @@ python noter.py
 ```
 > Linux
 ```console
-$ python3 noter.py
+python3 noter.py
 ```
 ## License
 
