@@ -7,6 +7,15 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+mysql-connector-python = "^8.0.23"
+mysql-connector = "^2.2.9"
+mysqlclient = "^2.0.3"
+onetimepad = "^1.4"
+playsound = "^1.2.2"
+pyttsx3 = "^2.90"
+SpeechRecognition = "^3.8.1"
+sqlparse = "^0.4.1"
+tabulate = "^0.8.9"
 
 [tool.poetry.dev-dependencies]
 
