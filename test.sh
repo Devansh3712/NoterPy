@@ -1,16 +1,22 @@
 #!bin/bash
 
-if ! [ -d "$logs" ];
+if [ -d "$logs" ];
 then
-mkdir logs
+    echo "logs file present"
+else
+    mkdir logs
 fi
 
-if ! [ -d "$notes" ];
+if [ -d "$notes" ];
 then
-mkdir notes
+    echo "notes file present"
+else
+    mkdir notes
 fi
 
-if ! [ -d "$to-do-list" ];
+if [ -d "$to-do-list" ];
 then
-mkdir to-do-list
+    echo "to-do-list file present"
+else
+    mkdir to-do-list
 fi
